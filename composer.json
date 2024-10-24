@@ -1,0 +1,16 @@
+{
+  "name":"dottwatson/simple-data",
+  "description" :"traverse an array or an object by accessing the children and parents of a node",
+  "type": "library",
+  "keywords": ["array","object","iterator","parent","childs"],
+  "license": "MIT",
+  
+  "autoload": {
+      "psr-4": {
+        "SimpleData\\": "src/"
+      },
+      "files": [
+        "src/functions.php"
+    ]
+  }
+}
