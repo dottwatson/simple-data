@@ -1,11 +1,12 @@
-# Lonfo
-traverse an array by accessing the children and parents of a node
+
+# SimpleData
+traverse an array or an object by accessing the children and parents of a node
 
 ## Install
 
 In your project 
 ```
-composer require dottwatson/lonfo
+composer require dottwatson/simple-data
 ```
 
 ## Usage
@@ -17,44 +18,41 @@ $data = [
     'foo' => [10,20,30,40,50]
 ];
 
+$object = new StdClass;
+$object->bar = 'foo';
+
 
 ```
 with dedicated function
 
 ```php
 
-$array = lonfo($data); //returns a Lonfo\SimpleData Object
+$array = simple_data($data); //returns a SimpleData\SimpleArray object
+
+$object = simple_data($object); //returns a SimpleData\SimpleObject object
 
 ```
 or with instance
 
 ```php
 
-use Lonfo\SimpleData;
+use SimpleData\SimpleArray;
 
-$array = new SimpleData($data); //returns a Lonfo\SimpleData Object
+$array = new SimpleArray($data);
 
 ```
-then traverse your array
+then traverse your array (or object)
 
 ```php
 
-$item = $array->get('bar'); //returns a Lonfo\SimpleData Object
+$item = $array->get('bar');
 
 $itemData = $array->get('bar')->value(); //returns  [0,1,2,3,4,5]
 
 //retrieve a value and back to its parent
 
-$item = $array->get('bar'); //returns a Lonfo\SimpleData Object
-$parentNode = $item->parent(); //returns a Lonfo\SimpleData Object of the parent array
-
-//cycle items in array
-while($item = $array->next()){
-   print_r($item->value());
-}
-
-//rewind pointer
-$array->rewind();
+$item = $array->get('bar');
+$parentNode = $item->parent();
 
 ```
 
@@ -110,14 +108,14 @@ $result = $array
 
 // )
 
-echo $array->get('bar')->get(2)->xpath(); // returns "bar/2"
+echo $array->get('bar')->get(2)->path(); // returns "bar/2"
 
 echo $array->xfind('gender/0')->value(); //returns "Male"
 
 ```
 ## Available methods on array
 
-Here a list on the available methods on `Lonfo\SimpleData`
+Here a list on the available methods on `SimpleData\SimpleArray`
 
 | Method | Description | Options | Notes |
 |--------|-------------|---------|-------|
@@ -129,10 +127,7 @@ Here a list on the available methods on `Lonfo\SimpleData`
 | `value` |  Return the current array data with all modifications | | |
 | `parent` | Returns the parent node in the array if any | | |
 | `has` | Check if key exists in array | *string* $key | |
-| `prev` | Move internal pointer to the previouse item and returns it if exists | | |
-| `next` | Move internal pointer to the previouse item and returns it if exists | | |
 | `key` | Returns the current item key | | |
-| `rewind` | Reset array internal pointer | | |
 | `first` | Returns the first item in the array if exists | | |
 | `last` | Returns the last item in the array if exists | | |
 | `shift` | Remove the first item in the array if exists and returns it | | |
@@ -140,12 +135,12 @@ Here a list on the available methods on `Lonfo\SimpleData`
 | `set` | Set a pair key => value item in teh array. If exists, will be overwritten | *string* $key, *string* $value | used to add/overwrite items |
 | `append` | Append alle items, passed as arguments, to the array | [$arg1,[$arg2]...] | |
 | `prepend` | Prepends all items, passed as arguments, to the array | [$arg1,[$arg2]...] | |
-| `xpath` | Returns the relative path , included current key  | [*string* $separator = '/'] | |
-| `xfind` | Returns an item or null, based on its xpath relative to current element where search starts | *string* $path,[*string* $separator = '/'] | |
-| `iterable` | Tells if is a valid array (a traversable SimpleData) | | This is useful for determinate if an end value or array to traverse |
+| `path` | Returns the relative path , included current key  | [*string* $separator = '/'] | |
+| `find` | Returns an item or null, based on its xpath relative to current element where search starts | *string* $path,[*string* $separator = '/'] | |
+| `iterable` | Tells if is a valid array (a traversable SimpleData) | | This is useful for determinate if an end value or array or object to traverse |
 
 
-## Available methods on SimpleSimpleValue
+## Available methods on SimpleValue
 
 
 
@@ -157,5 +152,5 @@ Here a list on the available methods on `Lonfo\SimpleValue`
 | `value` | Returns value | | |
 | `parent` | Returns the parent array | | |
 | `type` | Returns the value type | | |
-| `xpath` | Returns the full data path , included current key  | [*string* $separator = '/'] | |
+| `path` | Returns the full data path , included current key  | [*string* $separator = '/'] | |
 | `iterable` | Tells if is a valid array (a traversable SimpleData) | | This is useful for determinate if an end value or array to traverse |
